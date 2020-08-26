@@ -1,19 +1,30 @@
 <template>
   <div id="app">
-    
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <h1>Vue photos</h1>
+    <div v-bind:key="photo.id" v-for="photo in photos">
+      <img :src="photo.url" />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import axios from "axios";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: {},
+  data() {
+    return {
+      photos: [],
+    };
+  },
+  created() {
+    axios
+      .get("https://jsonplaceholder.typicode.com/photos?_limit=10")
+      .then((res) => (this.photos = res.data))
+      .catch((err) => console.log(err));
+  },
+};
 </script>
 
 <style>
