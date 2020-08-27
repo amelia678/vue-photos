@@ -4,27 +4,40 @@
     <div v-bind:key="photo.id" v-for="photo in photos">
       <img :src="photo.url" />
     </div>
+    <audio autoplay></audio>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
+
+const constraints = {
+  audio: true,
+}
+
+const chunks = []
+
+const audio = document.querySelector('audio')
+
+navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+  audio.srcObject = stream
+})
 
 export default {
-  name: "App",
+  name: 'App',
   components: {},
   data() {
     return {
       photos: [],
-    };
+    }
   },
   created() {
     axios
-      .get("https://jsonplaceholder.typicode.com/photos?_limit=10")
+      .get('https://jsonplaceholder.typicode.com/photos?_limit=10')
       .then((res) => (this.photos = res.data))
-      .catch((err) => console.log(err));
+      .catch((err) => console.log(err))
   },
-};
+}
 </script>
 
 <style>
