@@ -6,12 +6,13 @@
       <button ref="stop">Stop</button>
     </div>
     <section ref="sound-clips">
-      <div v-bind:key="clip.name" v-for="clip in clips">
+      <div v-bind:key="clip.name" v-for="(clip, index) in clips">
         <article>
           <audio controls>
             <source :src="clip.url" type="audio/ogg" />
           </audio>
           <p>{{clip.name}}</p>
+          <button @click="remove(index)">Delete</button>
         </article>
       </div>
     </section>
@@ -26,6 +27,11 @@ export default {
     return {
       clips: [],
     }
+  },
+  methods: {
+    remove: function(index){
+      this.clips.splice(index, 1)
+    },
   },
   created() {
     if (navigator.mediaDevices) {
